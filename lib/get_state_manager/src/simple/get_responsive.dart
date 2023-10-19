@@ -67,8 +67,7 @@ class GetResponsiveView<T> extends GetView<T> with GetResponsiveMixin {
         super(key: key);
 }
 
-class GetResponsiveWidget<T extends GetLifeCycleBase?> extends GetWidget<T>
-    with GetResponsiveMixin {
+class GetResponsiveWidget<T extends GetLifeCycleBase?> extends GetWidget<T> with GetResponsiveMixin {
   @override
   final bool alwaysUseBuilder;
 
@@ -100,10 +99,7 @@ class ResponsiveScreenSettings {
   /// the display will be [ScreenType.Phone]
   final double watchChangePoint;
 
-  const ResponsiveScreenSettings(
-      {this.desktopChangePoint = 1200,
-      this.tabletChangePoint = 600,
-      this.watchChangePoint = 300});
+  const ResponsiveScreenSettings({this.desktopChangePoint = 1200, this.tabletChangePoint = 600, this.watchChangePoint = 300});
 }
 
 class ResponsiveScreen {
@@ -115,8 +111,8 @@ class ResponsiveScreen {
     _isPaltformDesktop = GetPlatform.isDesktop;
   }
 
-  double get height => context.height;
-  double get width => context.width;
+  double get height => MediaQuery.sizeOf(context).height;
+  double get width => MediaQuery.sizeOf(context).width;
 
   /// Is [screenType] [ScreenType.Desktop]
   bool get isDesktop => (screenType == ScreenType.Desktop);
@@ -134,7 +130,7 @@ class ResponsiveScreen {
     if (_isPaltformDesktop) {
       return width;
     }
-    return context.mediaQueryShortestSide;
+    return MediaQuery.sizeOf(context).shortestSide;
   }
 
   ScreenType get screenType {

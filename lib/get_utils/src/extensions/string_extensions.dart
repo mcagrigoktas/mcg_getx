@@ -1,35 +1,35 @@
 import '../get_utils/get_utils.dart';
 
 extension GetStringUtils on String {
-  bool get isNum => GetUtils.isNum(this);
+  // bool get isNum => GetUtils.isNum(this);
 
-  bool get isNumericOnly => GetUtils.isNumericOnly(this);
+  // bool get isNumericOnly => GetUtils.isNumericOnly(this);
 
-  bool get isAlphabetOnly => GetUtils.isAlphabetOnly(this);
+  //bool get isAlphabetOnly => GetUtils.isAlphabetOnly(this);
 
-  bool get isBool => GetUtils.isBool(this);
+  //bool get isBool => GetUtils.isBool(this);
 
-  bool get isVectorFileName => GetUtils.isVector(this);
+  //bool get isVectorFileName => GetUtils.isVector(this);
 
-  bool get isImageFileName => GetUtils.isImage(this);
+  //bool get isImageFileName => GetUtils.isImage(this);
 
-  bool get isAudioFileName => GetUtils.isAudio(this);
+  //bool get isAudioFileName => GetUtils.isAudio(this);
 
-  bool get isVideoFileName => GetUtils.isVideo(this);
+  //bool get isVideoFileName => GetUtils.isVideo(this);
 
-  bool get isTxtFileName => GetUtils.isTxt(this);
+  //bool get isTxtFileName => GetUtils.isTxt(this);
 
-  bool get isDocumentFileName => GetUtils.isWord(this);
+  //bool get isDocumentFileName => GetUtils.isWord(this);
 
-  bool get isExcelFileName => GetUtils.isExcel(this);
+  //bool get isExcelFileName => GetUtils.isExcel(this);
 
-  bool get isPPTFileName => GetUtils.isPPT(this);
+  //bool get isPPTFileName => GetUtils.isPPT(this);
 
-  bool get isAPKFileName => GetUtils.isAPK(this);
+  //bool get isAPKFileName => GetUtils.isAPK(this);
 
-  bool get isPDFFileName => GetUtils.isPDF(this);
+  //bool get isPDFFileName => GetUtils.isPDF(this);
 
-  bool get isHTMLFileName => GetUtils.isHTML(this);
+  //bool get isHTMLFileName => GetUtils.isHTML(this);
 
   bool get isURL => GetUtils.isURL(this);
 
@@ -63,11 +63,9 @@ extension GetStringUtils on String {
 
   bool get isCnpj => GetUtils.isCnpj(this);
 
-  bool isCaseInsensitiveContains(String b) =>
-      GetUtils.isCaseInsensitiveContains(this, b);
+  bool isCaseInsensitiveContains(String b) => GetUtils.isCaseInsensitiveContains(this, b);
 
-  bool isCaseInsensitiveContainsAny(String b) =>
-      GetUtils.isCaseInsensitiveContainsAny(this, b);
+  bool isCaseInsensitiveContainsAny(String b) => GetUtils.isCaseInsensitiveContainsAny(this, b);
 
   String? get capitalize => GetUtils.capitalize(this);
 
@@ -79,8 +77,7 @@ extension GetStringUtils on String {
 
   String? get paramCase => GetUtils.paramCase(this);
 
-  String numericOnly({bool firstWordOnly = false}) =>
-      GetUtils.numericOnly(this, firstWordOnly: firstWordOnly);
+  //String numericOnly({bool firstWordOnly = false}) => GetUtils.numericOnly(this, firstWordOnly: firstWordOnly);
 
   String createPath([Iterable? segments]) {
     final path = startsWith('/') ? this : '/$this';

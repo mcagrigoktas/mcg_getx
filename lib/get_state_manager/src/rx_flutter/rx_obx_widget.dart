@@ -50,8 +50,7 @@ class _ObxState extends State<ObxWidget> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      RxInterface.notifyChildren(_observer, widget.build);
+  Widget build(BuildContext context) => RxInterface.notifyChildren(_observer, widget.build);
 }
 
 /// The simplest reactive widget in GetX.
@@ -68,6 +67,25 @@ class Obx extends ObxWidget {
 
   @override
   Widget build() => builder();
+}
+
+/// Obx dinlenecek degisken icinde kullanilmadiginda hata veriyordu. Baska cozumu barsa bak
+/// Obx widgeti icinde kullan
+ObxListen(dynamic value, [dynamic value2, dynamic valu3]) {}
+
+///Obx gibi fakat bi rxbool degiskeni verdiginde o degisken kullanilmasa bile widget yenilenir
+class Oby<T extends RxBool> extends StatelessWidget {
+  final WidgetCallback builder;
+  final T data;
+  const Oby(this.builder, this.data);
+
+  @override
+  Widget build(_) {
+    return Obx(() {
+      ObxListen(data.value);
+      return builder();
+    });
+  }
 }
 
 /// Similar to Obx, but manages a local state.

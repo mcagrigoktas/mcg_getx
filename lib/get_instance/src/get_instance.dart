@@ -78,11 +78,7 @@ class GetInstance {
     bool permanent = false,
     @deprecated InstanceBuilderCallback<S>? builder,
   }) {
-    _insert(
-        isSingleton: true,
-        name: tag,
-        permanent: permanent,
-        builder: builder ?? (() => dependency));
+    _insert(isSingleton: true, name: tag, permanent: permanent, builder: builder ?? (() => dependency));
     return find<S>(tag: tag);
   }
 
@@ -251,10 +247,11 @@ class GetInstance {
     final i = _singl[key]!.getDependency() as S;
     if (i is GetLifeCycleBase) {
       i.onStart();
+      //? Istersen asagidaki loglari acabilirsin
       if (tag == null) {
-        Get.log('Instance "$S" has been initialized');
+        //    Get.log('Instance "$S" has been initialized');
       } else {
-        Get.log('Instance "$S" with tag "$tag" has been initialized');
+        //   Get.log('Instance "$S" with tag "$tag" has been initialized');
       }
       if (!_singl[key]!.isSingleton!) {
         RouterReportManager.appendRouteByCreate(i);
@@ -319,8 +316,7 @@ class GetInstance {
   /// `clearFactory` clears the callbacks registered by [lazyPut]
   /// `clearRouteBindings` clears Instances associated with routes.
   ///
-  bool resetInstance(
-      {@deprecated bool clearFactory = true, bool clearRouteBindings = true}) {
+  bool resetInstance({@deprecated bool clearFactory = true, bool clearRouteBindings = true}) {
     //  if (clearFactory) _factory.clear();
     // deleteAll(force: true);
     if (clearRouteBindings) RouterReportManager.clearRouteKeys();

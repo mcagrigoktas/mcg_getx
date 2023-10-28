@@ -67,14 +67,12 @@ class GetCupertinoApp extends StatelessWidget {
     this.theme,
     this.navigatorKey,
     this.home,
-    Map<String, Widget Function(BuildContext)> this.routes =
-        const <String, WidgetBuilder>{},
+    Map<String, Widget Function(BuildContext)> this.routes = const <String, WidgetBuilder>{},
     this.initialRoute,
     this.onGenerateRoute,
     this.onGenerateInitialRoutes,
     this.onUnknownRoute,
-    List<NavigatorObserver> this.navigatorObservers =
-        const <NavigatorObserver>[],
+    List<NavigatorObserver> this.navigatorObservers = const <NavigatorObserver>[],
     this.builder,
     this.translationsKeys,
     this.translations,
@@ -169,8 +167,7 @@ class GetCupertinoApp extends StatelessWidget {
   })  : routerDelegate = routerDelegate ??= Get.createDelegate(
           notFoundRoute: unknownRoute,
         ),
-        routeInformationParser =
-            routeInformationParser ??= Get.createInformationParser(
+        routeInformationParser = routeInformationParser ??= Get.createInformationParser(
           initialRoute: getPages?.first.name ?? '/',
         ),
         navigatorObservers = null,
@@ -217,13 +214,11 @@ class GetCupertinoApp extends StatelessWidget {
           onInit?.call();
 
           Get.config(
-            enableLog: enableLog ?? Get.isLogEnable,
             logWriterCallback: logWriterCallback,
             defaultTransition: defaultTransition ?? Get.defaultTransition,
             defaultOpaqueRoute: opaqueRoute ?? Get.isOpaqueRouteDefault,
             defaultPopGesture: popGesture ?? Get.isPopGestureEnable,
-            defaultDurationTransition:
-                transitionDuration ?? Get.defaultTransitionDuration,
+            defaultDurationTransition: transitionDuration ?? Get.defaultTransitionDuration,
           );
         },
         builder: (_) => routerDelegate != null
@@ -254,25 +249,14 @@ class GetCupertinoApp extends StatelessWidget {
             : CupertinoApp(
                 key: _.unikey,
                 theme: theme,
-                navigatorKey: (navigatorKey == null
-                    ? Get.key
-                    : Get.addKey(navigatorKey!)),
+                navigatorKey: (navigatorKey == null ? Get.key : Get.addKey(navigatorKey!)),
                 home: home,
                 routes: routes ?? const <String, WidgetBuilder>{},
                 initialRoute: initialRoute,
-                onGenerateRoute:
-                    (getPages != null ? generator : onGenerateRoute),
-                onGenerateInitialRoutes: (getPages == null || home != null)
-                    ? onGenerateInitialRoutes
-                    : initialRoutesGenerate,
+                onGenerateRoute: (getPages != null ? generator : onGenerateRoute),
+                onGenerateInitialRoutes: (getPages == null || home != null) ? onGenerateInitialRoutes : initialRoutesGenerate,
                 onUnknownRoute: onUnknownRoute,
-                navigatorObservers: (navigatorObservers == null
-                    ? <NavigatorObserver>[
-                        GetObserver(routingCallback, Get.routing)
-                      ]
-                    : <NavigatorObserver>[
-                        GetObserver(routingCallback, Get.routing)
-                      ]
+                navigatorObservers: (navigatorObservers == null ? <NavigatorObserver>[GetObserver(routingCallback, Get.routing)] : <NavigatorObserver>[GetObserver(routingCallback, Get.routing)]
                   ..addAll(navigatorObservers!)),
                 builder: defaultBuilder,
                 title: title,
@@ -296,13 +280,8 @@ class GetCupertinoApp extends StatelessWidget {
 
   Widget defaultBuilder(BuildContext context, Widget? child) {
     return Directionality(
-      textDirection: textDirection ??
-          (rtlLanguages.contains(Get.locale?.languageCode)
-              ? TextDirection.rtl
-              : TextDirection.ltr),
-      child: builder == null
-          ? (child ?? Material())
-          : builder!(context, child ?? Material()),
+      textDirection: textDirection ?? (rtlLanguages.contains(Get.locale?.languageCode) ? TextDirection.rtl : TextDirection.ltr),
+      child: builder == null ? (child ?? Material()) : builder!(context, child ?? Material()),
     );
   }
 

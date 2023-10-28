@@ -10,6 +10,10 @@ abstract class GetInterface {
   SmartManagement smartManagement = SmartManagement.full;
   RouterDelegate? routerDelegate;
   RouteInformationParser? routeInformationParser;
-  bool isLogEnable = kDebugMode;
   LogWriterCallback log = defaultLogWriterCallback;
+}
+
+class GetConst {
+  GetConst._();
+  static bool isLogEnable = kDebugMode;
 }

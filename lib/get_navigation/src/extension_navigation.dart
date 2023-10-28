@@ -982,10 +982,7 @@ you can only use widgets and widget functions here''';
   }
 
   /// change default config of Get
-  void config({LogWriterCallback? logWriterCallback, bool? defaultPopGesture, bool? defaultOpaqueRoute, Duration? defaultDurationTransition, bool? defaultGlobalState, Transition? defaultTransition}) {
-    if (logWriterCallback != null) {
-      Get.log = logWriterCallback;
-    }
+  void config({bool? defaultPopGesture, bool? defaultOpaqueRoute, Duration? defaultDurationTransition, bool? defaultGlobalState, Transition? defaultTransition}) {
     if (defaultPopGesture != null) {
       _getxController.defaultPopGesture = defaultPopGesture;
     }

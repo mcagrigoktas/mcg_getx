@@ -230,7 +230,6 @@ class GetMaterialApp extends StatelessWidget {
           onInit?.call();
 
           Get.config(
-            logWriterCallback: logWriterCallback,
             defaultTransition: defaultTransition ?? Get.defaultTransition,
             defaultOpaqueRoute: opaqueRoute ?? Get.isOpaqueRouteDefault,
             defaultPopGesture: popGesture ?? Get.isPopGestureEnable,

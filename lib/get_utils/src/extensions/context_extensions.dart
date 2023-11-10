@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
 
-extension ContextExtensionss on BuildContext {
+//xtension ContextExtensionss on BuildContext {
   // /// The same of [MediaQuery.of(context).size]
   // Size get mediaQuerySize => MediaQuery.of(this).size;
 
@@ -136,4 +136,4 @@ extension ContextExtensionss on BuildContext {
   //     return mobile!;
   //   }
   // }
-}
+//}

@@ -178,7 +178,9 @@ extension ExtensionDialog on GetInterface {
           style: TextButton.styleFrom(
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            shape: RoundedRectangleBorder(side: BorderSide(color: buttonColor ?? theme.colorScheme.secondary, width: 2, style: BorderStyle.solid), borderRadius: BorderRadius.circular(100)),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(color: buttonColor ?? theme.colorScheme.secondary, width: 2, style: BorderStyle.solid),
+                borderRadius: BorderRadius.circular(100)),
           ),
           onPressed: () {
             onCancel?.call();
@@ -203,7 +205,7 @@ extension ExtensionDialog on GetInterface {
             ),
             child: Text(
               textConfirm ?? "Ok",
-              style: TextStyle(color: confirmTextColor ?? theme.backgroundColor),
+              style: TextStyle(color: confirmTextColor ?? theme.scaffoldBackgroundColor),
             ),
             onPressed: () {
               onConfirm?.call();
@@ -982,7 +984,8 @@ you can only use widgets and widget functions here''';
   }
 
   /// change default config of Get
-  void config({bool? defaultPopGesture, bool? defaultOpaqueRoute, Duration? defaultDurationTransition, bool? defaultGlobalState, Transition? defaultTransition}) {
+  void config(
+      {bool? defaultPopGesture, bool? defaultOpaqueRoute, Duration? defaultDurationTransition, bool? defaultGlobalState, Transition? defaultTransition}) {
     if (defaultPopGesture != null) {
       _getxController.defaultPopGesture = defaultPopGesture;
     }

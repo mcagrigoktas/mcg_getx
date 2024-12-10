@@ -1,10 +1,11 @@
 // TODO: resolve platform/desktop by JS browser agent.
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
+// import 'dart:html' as html;
+import 'package:web/web.dart' as web;
 
 import '../../get_utils.dart';
 
-html.Navigator _navigator = html.window.navigator;
+web.Navigator _navigator = web.window.navigator;
 
 // ignore: avoid_classes_with_only_static_members
 class GeneralPlatform {

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../get.dart';
 
-class RouterOutlet<TDelegate extends RouterDelegate<T>, T extends Object>
-    extends StatefulWidget {
+class RouterOutlet<TDelegate extends RouterDelegate<T>, T extends Object> extends StatefulWidget {
   final TDelegate routerDelegate;
   final Widget Function(
     BuildContext context,
@@ -27,12 +26,10 @@ class RouterOutlet<TDelegate extends RouterDelegate<T>, T extends Object>
       BuildContext context,
       TDelegate,
       Iterable<GetPage>? page,
-    )
-        pageBuilder,
+    ) pageBuilder,
   }) : this.builder(
           builder: (context, rDelegate, currentConfig) {
-            var picked =
-                currentConfig == null ? null : pickPages(currentConfig);
+            var picked = currentConfig == null ? null : pickPages(currentConfig);
             if (picked?.isEmpty ?? false) {
               picked = null;
             }
@@ -41,12 +38,10 @@ class RouterOutlet<TDelegate extends RouterDelegate<T>, T extends Object>
           delegate: delegate,
         );
   @override
-  RouterOutletState<TDelegate, T> createState() =>
-      RouterOutletState<TDelegate, T>();
+  RouterOutletState<TDelegate, T> createState() => RouterOutletState<TDelegate, T>();
 }
 
-class RouterOutletState<TDelegate extends RouterDelegate<T>, T extends Object>
-    extends State<RouterOutlet<TDelegate, T>> {
+class RouterOutletState<TDelegate extends RouterDelegate<T>, T extends Object> extends State<RouterOutlet<TDelegate, T>> {
   TDelegate get delegate => widget.routerDelegate;
   @override
   void initState() {
@@ -90,10 +85,7 @@ class GetRouterOutlet extends RouterOutlet<GetDelegate, GetNavConfig> {
               // jump the ancestor path
               final length = Uri.parse(initialRoute).pathSegments.length;
 
-              return config.currentTreeBranch
-                  .skip(length)
-                  .take(length)
-                  .toList();
+              return config.currentTreeBranch.skip(length).take(length).toList();
             }
             ret = config.currentTreeBranch.pickAfterRoute(anchorRoute);
             if (filterPages != null) {
@@ -101,9 +93,7 @@ class GetRouterOutlet extends RouterOutlet<GetDelegate, GetNavConfig> {
             }
             return ret;
           },
-          emptyPage: (delegate) =>
-              Get.routeTree.matchRoute(initialRoute).route ??
-              delegate.notFoundRoute,
+          emptyPage: (delegate) => Get.routeTree.matchRoute(initialRoute).route ?? delegate.notFoundRoute,
           key: key,
           delegate: delegate,
         );
@@ -146,8 +136,7 @@ class GetRouterOutlet extends RouterOutlet<GetDelegate, GetNavConfig> {
       BuildContext context,
       GetDelegate delegate,
       GetNavConfig? currentRoute,
-    )
-        builder,
+    ) builder,
     GetDelegate? routerDelegate,
   }) : super.builder(
           builder: builder,

@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import '../../../get.dart';
 import '../../../get_state_manager/src/simple/list_notifier.dart';
 
-class GetDelegate extends RouterDelegate<GetNavConfig>
-    with ListenableMixin, ListNotifierMixin {
+class GetDelegate extends RouterDelegate<GetNavConfig> with ListenableMixin, ListNotifierMixin {
   final List<GetNavConfig> history = <GetNavConfig>[];
   final PopMode backButtonPopMode;
   final PreventDuplicateHandlingMode preventDuplicateHandlingMode;
@@ -24,8 +23,7 @@ class GetDelegate extends RouterDelegate<GetNavConfig>
     this.navigatorObservers,
     this.transitionDelegate,
     this.backButtonPopMode = PopMode.History,
-    this.preventDuplicateHandlingMode =
-        PreventDuplicateHandlingMode.ReorderRoutes,
+    this.preventDuplicateHandlingMode = PreventDuplicateHandlingMode.ReorderRoutes,
   }) : notFoundRoute = notFoundRoute ??
             GetPage(
               name: '/404',
@@ -62,9 +60,7 @@ class GetDelegate extends RouterDelegate<GetNavConfig>
   }) async {
     // remove history or page entries until you meet route
     var iterator = currentConfiguration;
-    while (_canPop(popMode) &&
-        iterator != null &&
-        iterator.location != fullRoute) {
+    while (_canPop(popMode) && iterator != null && iterator.location != fullRoute) {
       await _pop(popMode);
       // replace iterator
       iterator = currentConfiguration;
@@ -85,8 +81,7 @@ class GetDelegate extends RouterDelegate<GetNavConfig>
         GetObserver(),
         if (extraObservers != null) ...extraObservers,
       ],
-      transitionDelegate:
-          transitionDelegate ?? const DefaultTransitionDelegate<dynamic>(),
+      transitionDelegate: transitionDelegate ?? const DefaultTransitionDelegate<dynamic>(),
     );
   }
 
@@ -109,16 +104,13 @@ class GetDelegate extends RouterDelegate<GetNavConfig>
     final currentHistory = currentConfiguration;
     if (currentHistory == null) return <GetPage>[];
 
-    final res = currentHistory.currentTreeBranch
-        .where((r) => r.participatesInRootNavigator != null);
+    final res = currentHistory.currentTreeBranch.where((r) => r.participatesInRootNavigator != null);
     if (res.isEmpty) {
       //default behavoir, all routes participate in root navigator
       return history.map((e) => e.currentPage!).toList();
     } else {
       //user specified at least one participatesInRootNavigator
-      return res
-          .where((element) => element.participatesInRootNavigator == true)
-          .toList();
+      return res.where((element) => element.participatesInRootNavigator == true).toList();
     }
   }
 
@@ -290,8 +282,7 @@ class GetDelegate extends RouterDelegate<GetNavConfig>
     if (currentBranch != null && currentBranch.length > 1) {
       //remove last part only
       final remaining = currentBranch.take(currentBranch.length - 1);
-      final prevHistoryEntry =
-          history.length > 1 ? history[history.length - 2] : null;
+      final prevHistoryEntry = history.length > 1 ? history[history.length - 2] : null;
 
       //check if current route is the same as the previous route
       if (prevHistoryEntry != null) {
@@ -366,8 +357,7 @@ class GetDelegate extends RouterDelegate<GetNavConfig>
 
   Future<void> _pushHistory(GetNavConfig config) async {
     if (config.currentPage!.preventDuplicates) {
-      final originalEntryIndex =
-          history.indexWhere((element) => element.location == config.location);
+      final originalEntryIndex = history.indexWhere((element) => element.location == config.location);
       if (originalEntryIndex >= 0) {
         switch (preventDuplicateHandlingMode) {
           case PreventDuplicateHandlingMode.PopUntilOriginalRoute:
@@ -439,8 +429,7 @@ class GetNavigator extends Navigator {
             // GetObserver(),
             if (observers != null) ...observers,
           ],
-          transitionDelegate:
-              transitionDelegate ?? const DefaultTransitionDelegate<dynamic>(),
+          transitionDelegate: transitionDelegate ?? const DefaultTransitionDelegate<dynamic>(),
         );
 }
 

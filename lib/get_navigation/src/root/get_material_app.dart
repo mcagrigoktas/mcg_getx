@@ -276,7 +276,9 @@ class GetMaterialApp extends StatelessWidget {
                 onGenerateRoute: (getPages != null ? generator : onGenerateRoute),
                 onGenerateInitialRoutes: (getPages == null || home != null) ? onGenerateInitialRoutes : initialRoutesGenerate,
                 onUnknownRoute: onUnknownRoute,
-                navigatorObservers: (navigatorObservers == null ? <NavigatorObserver>[GetObserver(routingCallback, Get.routing)] : <NavigatorObserver>[GetObserver(routingCallback, Get.routing)]
+                navigatorObservers: (navigatorObservers == null
+                    ? <NavigatorObserver>[GetObserver(routingCallback, Get.routing)]
+                    : <NavigatorObserver>[GetObserver(routingCallback, Get.routing)]
                   ..addAll(navigatorObservers!)),
                 builder: defaultBuilder,
                 title: title,

@@ -243,7 +243,7 @@ class GetCupertinoApp extends StatelessWidget {
                 showSemanticsDebugger: showSemanticsDebugger,
                 debugShowCheckedModeBanner: debugShowCheckedModeBanner,
                 shortcuts: shortcuts,
-                useInheritedMediaQuery: useInheritedMediaQuery,
+                // useInheritedMediaQuery: useInheritedMediaQuery,
               )
             : CupertinoApp(
                 key: _.unikey,
@@ -255,7 +255,9 @@ class GetCupertinoApp extends StatelessWidget {
                 onGenerateRoute: (getPages != null ? generator : onGenerateRoute),
                 onGenerateInitialRoutes: (getPages == null || home != null) ? onGenerateInitialRoutes : initialRoutesGenerate,
                 onUnknownRoute: onUnknownRoute,
-                navigatorObservers: (navigatorObservers == null ? <NavigatorObserver>[GetObserver(routingCallback, Get.routing)] : <NavigatorObserver>[GetObserver(routingCallback, Get.routing)]
+                navigatorObservers: (navigatorObservers == null
+                    ? <NavigatorObserver>[GetObserver(routingCallback, Get.routing)]
+                    : <NavigatorObserver>[GetObserver(routingCallback, Get.routing)]
                   ..addAll(navigatorObservers!)),
                 builder: defaultBuilder,
                 title: title,
@@ -272,7 +274,7 @@ class GetCupertinoApp extends StatelessWidget {
                 showSemanticsDebugger: showSemanticsDebugger,
                 debugShowCheckedModeBanner: debugShowCheckedModeBanner,
                 shortcuts: shortcuts,
-                useInheritedMediaQuery: useInheritedMediaQuery,
+                // useInheritedMediaQuery: useInheritedMediaQuery,
                 //   actions: actions,
               ),
       );
@@ -280,7 +282,7 @@ class GetCupertinoApp extends StatelessWidget {
   Widget defaultBuilder(BuildContext context, Widget? child) {
     return Directionality(
       textDirection: textDirection ?? (rtlLanguages.contains(Get.locale?.languageCode) ? TextDirection.rtl : TextDirection.ltr),
-      child: builder == null ? (child ?? Material()) : builder!(context, child ?? Material()),
+      child: builder == null ? (child ?? const Material()) : builder!(context, child ?? const Material()),
     );
   }
 

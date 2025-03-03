@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:flutter/widgets.dart';
+
 import 'get_state.dart';
 import 'list_notifier.dart';
 
@@ -37,10 +39,10 @@ class ValueBuilder<T> extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ValueBuilderState<T> createState() => _ValueBuilderState<T>();
+  ValueBuilderState<T> createState() => ValueBuilderState<T>();
 }
 
-class _ValueBuilderState<T> extends State<ValueBuilder<T?>> {
+class ValueBuilderState<T> extends State<ValueBuilder<T?>> {
   T? value;
 
   @override
@@ -81,10 +83,10 @@ class SimpleBuilder extends StatefulWidget {
   const SimpleBuilder({Key? key, required this.builder}) : super(key: key);
 
   @override
-  _SimpleBuilderState createState() => _SimpleBuilderState();
+  SimpleBuilderState createState() => SimpleBuilderState();
 }
 
-class _SimpleBuilderState extends State<SimpleBuilder>
+class SimpleBuilderState extends State<SimpleBuilder>
     with GetStateUpdaterMixin {
   final disposers = <Disposer>[];
 

@@ -178,8 +178,8 @@ mixin NotifyManager<T> {
 
   /// Closes the subscriptions for this Rx, releasing the resources.
   void close() {
-    _subscriptions.forEach((getStream, _subscriptions) {
-      for (final subscription in _subscriptions) {
+    _subscriptions.forEach((getStream, subscriptions) {
+      for (final subscription in subscriptions) {
         subscription.cancel();
       }
     });
@@ -199,7 +199,7 @@ abstract class _RxImpl<T> extends RxNotifier<T> with RxObjectMixin<T> {
     subject.addError(error, stackTrace);
   }
 
-  Stream<R> map<R>(R mapper(T? data)) => stream.map(mapper);
+  Stream<R> map<R>(R Function(T? data) mapper) => stream.map(mapper);
 
   /// Uses a callback to update [value] internally, similar to [refresh],
   /// but provides the current value as the argument.
@@ -221,7 +221,7 @@ abstract class _RxImpl<T> extends RxNotifier<T> with RxObjectMixin<T> {
   /// });
   /// print( person );
   /// ```
-  void update(void fn(T? val)) {
+  void update(void Function(T? val) fn) {
     fn(_value);
     subject.add(_value);
   }

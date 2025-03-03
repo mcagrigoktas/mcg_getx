@@ -27,7 +27,7 @@ class RxList<E> extends ListMixin<E>
   }
 
   /// Generates a list of values.
-  factory RxList.generate(int length, E generator(int index),
+  factory RxList.generate(int length, E Function(int index) generator,
       {bool growable = true}) {
     return RxList(List.generate(length, generator, growable: growable));
   }
@@ -61,25 +61,25 @@ class RxList<E> extends ListMixin<E>
   }
 
   @override
-  void add(E item) {
-    _value.add(item);
+  void add(E element) {
+    _value.add(element);
     refresh();
   }
 
   @override
-  void addAll(Iterable<E> item) {
-    _value.addAll(item);
+  void addAll(Iterable<E> iterable) {
+    _value.addAll(iterable);
     refresh();
   }
 
   @override
-  void removeWhere(bool test(E element)) {
+  void removeWhere(bool Function(E element) test) {
     _value.removeWhere(test);
     refresh();
   }
 
   @override
-  void retainWhere(bool test(E element)) {
+  void retainWhere(bool Function(E element) test) {
     _value.retainWhere(test);
     refresh();
   }
@@ -120,7 +120,7 @@ class RxList<E> extends ListMixin<E>
   }
 
   @override
-  void sort([int compare(E a, E b)?]) {
+  void sort([int Function(E a, E b)? compare]) {
     _value.sort(compare);
     refresh();
   }

@@ -21,11 +21,11 @@ abstract class RxInterface<T> {
 
   /// Avoids an unsafe usage of the `proxy`
   static T notifyChildren<T>(RxNotifier observer, ValueGetter<T> builder) {
-    final _observer = RxInterface.proxy;
+    final oldObserver = RxInterface.proxy;
     RxInterface.proxy = observer;
     final result = builder();
     if (!observer.canUpdate) {
-      RxInterface.proxy = _observer;
+      RxInterface.proxy = oldObserver;
       throw """
       [Get] the improper use of a GetX has been detected. 
       You should only use GetX or Obx for the specific widget that will be updated.
@@ -35,7 +35,7 @@ abstract class RxInterface<T> {
       If you need to update a parent widget and a child widget, wrap each one in an Obx/GetX.
       """;
     }
-    RxInterface.proxy = _observer;
+    RxInterface.proxy = oldObserver;
     return result;
   }
 }

@@ -15,7 +15,7 @@ class RxSet<E> extends SetMixin<E>
     return this;
   }
 
-  void update(void fn(Iterable<E>? value)) {
+  void update(void Function(Iterable<E>? value) fn) {
     fn(value);
     refresh();
   }
@@ -54,13 +54,13 @@ class RxSet<E> extends SetMixin<E>
   int get length => value.length;
 
   @override
-  E? lookup(Object? object) {
-    return value.lookup(object);
+  E? lookup(Object? element) {
+    return value.lookup(element);
   }
 
   @override
-  bool remove(Object? item) {
-    var hasRemoved = _value.remove(item);
+  bool remove(Object? value) {
+    var hasRemoved = _value.remove(value);
     if (hasRemoved) {
       refresh();
     }
@@ -73,8 +73,8 @@ class RxSet<E> extends SetMixin<E>
   }
 
   @override
-  void addAll(Iterable<E> item) {
-    _value.addAll(item);
+  void addAll(Iterable<E> elements) {
+    _value.addAll(elements);
     refresh();
   }
 
@@ -97,8 +97,8 @@ class RxSet<E> extends SetMixin<E>
   }
 
   @override
-  void retainWhere(bool Function(E) E) {
-    _value.retainWhere(E);
+  void retainWhere(bool Function(E) test) {
+    _value.retainWhere(test);
     refresh();
   }
 }

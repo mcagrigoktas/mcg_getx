@@ -264,7 +264,7 @@ class GetMaterialApp extends StatelessWidget {
                 debugShowCheckedModeBanner: debugShowCheckedModeBanner,
                 shortcuts: shortcuts,
                 scrollBehavior: scrollBehavior,
-                useInheritedMediaQuery: useInheritedMediaQuery,
+                // useInheritedMediaQuery: useInheritedMediaQuery,
               )
             : MaterialApp(
                 key: _.unikey,
@@ -300,7 +300,7 @@ class GetMaterialApp extends StatelessWidget {
                 debugShowCheckedModeBanner: debugShowCheckedModeBanner,
                 shortcuts: shortcuts,
                 scrollBehavior: scrollBehavior,
-                useInheritedMediaQuery: useInheritedMediaQuery,
+                // useInheritedMediaQuery: useInheritedMediaQuery,
                 //   actions: actions,
               ),
       );
@@ -308,7 +308,7 @@ class GetMaterialApp extends StatelessWidget {
   Widget defaultBuilder(BuildContext context, Widget? child) {
     return Directionality(
       textDirection: textDirection ?? (rtlLanguages.contains(Get.locale?.languageCode) ? TextDirection.rtl : TextDirection.ltr),
-      child: builder == null ? (child ?? Material()) : builder!(context, child ?? Material()),
+      child: builder == null ? (child ?? const Material()) : builder!(context, child ?? const Material()),
     );
   }
 

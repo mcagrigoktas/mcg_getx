@@ -28,9 +28,14 @@ class GetNavConfig extends RouteInformation {
     required String? location,
     required Object? state,
   }) : super(
-          location: location,
+          uri: Uri.parse(location ?? '/'),
+          // location: location,
           state: state,
         );
+
+  String get locationString {
+    return uri.toString();
+  }
 
   GetNavConfig copyWith({
     List<GetPage>? currentTreeBranch,
@@ -39,7 +44,7 @@ class GetNavConfig extends RouteInformation {
   }) {
     return GetNavConfig(
       currentTreeBranch: currentTreeBranch ?? this.currentTreeBranch,
-      location: location ?? this.location,
+      location: location ?? locationString,
       state: state ?? this.state,
     );
   }

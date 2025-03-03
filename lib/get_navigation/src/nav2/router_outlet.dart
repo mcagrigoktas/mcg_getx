@@ -36,6 +36,7 @@ class RouterOutlet<TDelegate extends RouterDelegate<T>, T extends Object> extend
             return pageBuilder(context, rDelegate, picked);
           },
           delegate: delegate,
+          key: key,
         );
   @override
   RouterOutletState<TDelegate, T> createState() => RouterOutletState<TDelegate, T>();
@@ -73,10 +74,11 @@ class RouterOutletState<TDelegate extends RouterDelegate<T>, T extends Object> e
 
 class GetRouterOutlet extends RouterOutlet<GetDelegate, GetNavConfig> {
   GetRouterOutlet({
+    Key? key,
     String? anchorRoute,
     required String initialRoute,
     Iterable<GetPage> Function(Iterable<GetPage> afterAnchor)? filterPages,
-    GlobalKey<NavigatorState>? key,
+    GlobalKey<NavigatorState>? navigatorKey,
     GetDelegate? delegate,
   }) : this.pickPages(
           pickPages: (config) {
@@ -95,14 +97,16 @@ class GetRouterOutlet extends RouterOutlet<GetDelegate, GetNavConfig> {
           },
           emptyPage: (delegate) => Get.routeTree.matchRoute(initialRoute).route ?? delegate.notFoundRoute,
           key: key,
+          navigatorKey: navigatorKey,
           delegate: delegate,
         );
   GetRouterOutlet.pickPages({
+    Key? key,
     Widget Function(GetDelegate delegate)? emptyWidget,
     GetPage Function(GetDelegate delegate)? emptyPage,
     required Iterable<GetPage> Function(GetNavConfig currentNavStack) pickPages,
     bool Function(Route<dynamic>, dynamic)? onPopPage,
-    GlobalKey<NavigatorState>? key,
+    GlobalKey<NavigatorState>? navigatorKey,
     GetDelegate? delegate,
   }) : super(
           pageBuilder: (context, rDelegate, pages) {
@@ -122,16 +126,18 @@ class GetRouterOutlet extends RouterOutlet<GetDelegate, GetNavConfig> {
                       return true;
                     },
                 pages: pageRes.toList(),
-                key: key,
+                key: navigatorKey,
               );
             }
             return (emptyWidget?.call(rDelegate) ?? const SizedBox.shrink());
           },
           pickPages: pickPages,
           delegate: delegate ?? Get.rootDelegate,
+          key: key,
         );
 
   GetRouterOutlet.builder({
+    Key? key,
     required Widget Function(
       BuildContext context,
       GetDelegate delegate,
@@ -141,6 +147,7 @@ class GetRouterOutlet extends RouterOutlet<GetDelegate, GetNavConfig> {
   }) : super.builder(
           builder: builder,
           delegate: routerDelegate,
+          key: key,
         );
 }
 

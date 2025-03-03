@@ -316,7 +316,7 @@ class GetInstance {
   /// `clearFactory` clears the callbacks registered by [lazyPut]
   /// `clearRouteBindings` clears Instances associated with routes.
   ///
-  bool resetInstance({@deprecated bool clearFactory = true, bool clearRouteBindings = true}) {
+  bool resetInstance({bool clearRouteBindings = true}) {
     //  if (clearFactory) _factory.clear();
     // deleteAll(force: true);
     if (clearRouteBindings) RouterReportManager.clearRouteKeys();

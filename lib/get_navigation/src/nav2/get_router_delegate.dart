@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -60,7 +62,7 @@ class GetDelegate extends RouterDelegate<GetNavConfig> with ListenableMixin, Lis
   }) async {
     // remove history or page entries until you meet route
     var iterator = currentConfiguration;
-    while (_canPop(popMode) && iterator != null && iterator.location != fullRoute) {
+    while (_canPop(popMode) && iterator != null && iterator.locationString != fullRoute) {
       await _pop(popMode);
       // replace iterator
       iterator = currentConfiguration;
@@ -288,7 +290,7 @@ class GetDelegate extends RouterDelegate<GetNavConfig> with ListenableMixin, Lis
       if (prevHistoryEntry != null) {
         //if so, pop the entire history entry
         final newLocation = remaining.last.name;
-        final prevLocation = prevHistoryEntry.location;
+        final prevLocation = prevHistoryEntry.locationString;
         if (newLocation == prevLocation) {
           //pop the entire history entry
           return await _popHistory();
@@ -357,11 +359,11 @@ class GetDelegate extends RouterDelegate<GetNavConfig> with ListenableMixin, Lis
 
   Future<void> _pushHistory(GetNavConfig config) async {
     if (config.currentPage!.preventDuplicates) {
-      final originalEntryIndex = history.indexWhere((element) => element.location == config.location);
+      final originalEntryIndex = history.indexWhere((element) => element.locationString == config.locationString);
       if (originalEntryIndex >= 0) {
         switch (preventDuplicateHandlingMode) {
           case PreventDuplicateHandlingMode.PopUntilOriginalRoute:
-            await backUntil(config.location!, popMode: PopMode.Page);
+            await backUntil(config.locationString, popMode: PopMode.Page);
             break;
           case PreventDuplicateHandlingMode.ReorderRoutes:
             await _unsafeHistoryRemoveAt(originalEntryIndex);

@@ -15,12 +15,12 @@ class GetMaterialController extends SuperController {
   bool defaultOpaqueRoute = true;
 
   Transition? defaultTransition;
-  Duration defaultTransitionDuration = Duration(milliseconds: 300);
+  Duration defaultTransitionDuration = const Duration(milliseconds: 300);
   Curve defaultTransitionCurve = Curves.easeOutQuad;
 
   Curve defaultDialogTransitionCurve = Curves.easeOutQuad;
 
-  Duration defaultDialogTransitionDuration = Duration(milliseconds: 300);
+  Duration defaultDialogTransitionDuration = const Duration(milliseconds: 300);
 
   final routing = Routing();
 
@@ -60,6 +60,9 @@ class GetMaterialController extends SuperController {
 
   @override
   void onResumed() {}
+
+  @override
+  void onHidden() {}
 
   void restartApp() {
     unikey = UniqueKey();

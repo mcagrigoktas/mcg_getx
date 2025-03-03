@@ -10,8 +10,7 @@ import '../../../get.dart';
 import 'default_transitions.dart';
 
 const double _kBackGestureWidth = 20.0;
-const int _kMaxDroppedSwipePageForwardAnimationTime =
-    800; // Screen widths per second.
+const int _kMaxDroppedSwipePageForwardAnimationTime = 800; // Screen widths per second.
 
 // An eyeballed value for the maximum time it takes
 //for a page to animate forward
@@ -63,14 +62,10 @@ class CupertinoBackGestureController<T> {
       // We want to cap the animation time, but we want to use a linear curve
       // to determine it.
       final droppedPageForwardAnimationTime = min(
-        lerpDouble(
-                _kMaxDroppedSwipePageForwardAnimationTime, 0, controller.value)!
-            .floor(),
+        lerpDouble(_kMaxDroppedSwipePageForwardAnimationTime, 0, controller.value)!.floor(),
         _kMaxPageBackAnimationTime,
       );
-      controller.animateTo(1.0,
-          duration: Duration(milliseconds: droppedPageForwardAnimationTime),
-          curve: animationCurve);
+      controller.animateTo(1.0, duration: Duration(milliseconds: droppedPageForwardAnimationTime), curve: animationCurve);
     } else {
       // This route is destined to pop at this point. Reuse navigator's pop.
       navigator.pop();
@@ -79,12 +74,8 @@ class CupertinoBackGestureController<T> {
       // target destination.
       if (controller.isAnimating) {
         // Otherwise, use a custom popping animation duration and curve.
-        final droppedPageBackAnimationTime = lerpDouble(
-                0, _kMaxDroppedSwipePageForwardAnimationTime, controller.value)!
-            .floor();
-        controller.animateBack(0.0,
-            duration: Duration(milliseconds: droppedPageBackAnimationTime),
-            curve: animationCurve);
+        final droppedPageBackAnimationTime = lerpDouble(0, _kMaxDroppedSwipePageForwardAnimationTime, controller.value)!.floor();
+        controller.animateBack(0.0, duration: Duration(milliseconds: droppedPageBackAnimationTime), curve: animationCurve);
       }
     }
 
@@ -127,12 +118,10 @@ class CupertinoBackGestureDetector<T> extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  CupertinoBackGestureDetectorState<T> createState() =>
-      CupertinoBackGestureDetectorState<T>();
+  CupertinoBackGestureDetectorState<T> createState() => CupertinoBackGestureDetectorState<T>();
 }
 
-class CupertinoBackGestureDetectorState<T>
-    extends State<CupertinoBackGestureDetector<T>> {
+class CupertinoBackGestureDetectorState<T> extends State<CupertinoBackGestureDetector<T>> {
   CupertinoBackGestureController<T>? _backGestureController;
 
   late HorizontalDragGestureRecognizer _recognizer;
@@ -142,9 +131,7 @@ class CupertinoBackGestureDetectorState<T>
     assert(debugCheckHasDirectionality(context));
     // For devices with notches, the drag area needs to be larger on the side
     // that has the notch.
-    var dragAreaWidth = Directionality.of(context) == TextDirection.ltr
-        ? MediaQuery.of(context).padding.left
-        : MediaQuery.of(context).padding.right;
+    var dragAreaWidth = Directionality.of(context) == TextDirection.ltr ? MediaQuery.of(context).padding.left : MediaQuery.of(context).padding.right;
     dragAreaWidth = max(dragAreaWidth, widget.gestureWidth);
     return Stack(
       fit: StackFit.passthrough,
@@ -201,8 +188,7 @@ class CupertinoBackGestureDetectorState<T>
   void _handleDragEnd(DragEndDetails details) {
     assert(mounted);
     assert(_backGestureController != null);
-    _backGestureController!.dragEnd(_convertToLogical(
-        details.velocity.pixelsPerSecond.dx / context.size!.width));
+    _backGestureController!.dragEnd(_convertToLogical(details.velocity.pixelsPerSecond.dx / context.size!.width));
     _backGestureController = null;
   }
 
@@ -215,8 +201,7 @@ class CupertinoBackGestureDetectorState<T>
   void _handleDragUpdate(DragUpdateDetails details) {
     assert(mounted);
     assert(_backGestureController != null);
-    _backGestureController!.dragUpdate(
-        _convertToLogical(details.primaryDelta! / context.size!.width));
+    _backGestureController!.dragUpdate(_convertToLogical(details.primaryDelta! / context.size!.width));
   }
 
   void _handlePointerDown(PointerDownEvent event) {
@@ -244,6 +229,7 @@ mixin GetPageRouteTransitionMixin<T> on PageRoute<T> {
   /// true first.
   ///
   /// This should only be used between frames, not during build.
+  @override
   bool get popGestureEnabled => _isPopGestureEnabled(this);
 
   /// True if an iOS-style back swipe pop gesture is currently
@@ -255,6 +241,7 @@ mixin GetPageRouteTransitionMixin<T> on PageRoute<T> {
   ///    is currently underway for specific route.
   ///  * [popGestureEnabled], which returns true if a user-triggered pop gesture
   ///    would be allowed.
+  @override
   bool get popGestureInProgress => isPopGestureInProgress(this);
 
   /// The title string of the previous [CupertinoPageRoute].
@@ -300,8 +287,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
   Widget buildContent(BuildContext context);
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     final child = buildContent(context);
     final Widget result = Semantics(
       scopesRoute: true,
@@ -312,10 +298,8 @@ Cannot read the previousTitle for a route that has not yet been installed''',
   }
 
   @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return buildPageTransitions<T>(
-        this, context, animation, secondaryAnimation, child);
+  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+    return buildPageTransitions<T>(this, context, animation, secondaryAnimation, child);
   }
 
   @override
@@ -323,18 +307,13 @@ Cannot read the previousTitle for a route that has not yet been installed''',
     // Don't perform outgoing animation if the next route is a
     // fullscreen dialog.
 
-    return (nextRoute is GetPageRouteTransitionMixin &&
-            !nextRoute.fullscreenDialog &&
-            nextRoute.showCupertinoParallax) ||
-        (nextRoute is CupertinoRouteTransitionMixin &&
-            !nextRoute.fullscreenDialog);
+    return (nextRoute is GetPageRouteTransitionMixin && !nextRoute.fullscreenDialog && nextRoute.showCupertinoParallax) ||
+        (nextRoute is CupertinoRouteTransitionMixin && !nextRoute.fullscreenDialog);
   }
 
   @override
   void didChangePrevious(Route<dynamic>? previousRoute) {
-    final previousTitleString = previousRoute is CupertinoRouteTransitionMixin
-        ? previousRoute.title
-        : null;
+    final previousTitleString = previousRoute is CupertinoRouteTransitionMixin ? previousRoute.title : null;
     if (_previousTitle == null) {
       _previousTitle = ValueNotifier<String?>(previousTitleString);
     } else {
@@ -375,12 +354,10 @@ Cannot read the previousTitle for a route that has not yet been installed''',
     final hasCurve = route.curve != null;
     if (route.fullscreenDialog && route.transition == null) {
       return CupertinoFullscreenDialogTransition(
-        primaryRouteAnimation: hasCurve
-            ? CurvedAnimation(parent: animation, curve: finalCurve)
-            : animation,
+        primaryRouteAnimation: hasCurve ? CurvedAnimation(parent: animation, curve: finalCurve) : animation,
         secondaryRouteAnimation: secondaryAnimation,
-        child: child,
         linearTransition: linearTransition,
+        child: child,
       );
     } else {
       if (route.customTransition != null) {
@@ -392,8 +369,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
           secondaryAnimation,
           route.popGesture ?? Get.defaultPopGesture
               ? CupertinoBackGestureDetector<T>(
-                  gestureWidth:
-                      route.gestureWidth?.call(context) ?? _kBackGestureWidth,
+                  gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                   enabledCallback: () => _isPopGestureEnabled<T>(route),
                   onStartPopGesture: () => _startPopGesture<T>(route),
                   child: child)
@@ -415,8 +391,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
@@ -431,8 +406,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
@@ -447,8 +421,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
@@ -457,8 +430,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
         case Transition.noTransition:
           return route.popGesture ?? Get.defaultPopGesture
               ? CupertinoBackGestureDetector<T>(
-                  gestureWidth:
-                      route.gestureWidth?.call(context) ?? _kBackGestureWidth,
+                  gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                   enabledCallback: () => _isPopGestureEnabled<T>(route),
                   onStartPopGesture: () => _startPopGesture<T>(route),
                   child: child)
@@ -473,8 +445,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
@@ -489,8 +460,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
@@ -505,8 +475,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
@@ -521,8 +490,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
@@ -537,8 +505,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
@@ -550,8 +517,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
             secondaryRouteAnimation: secondaryAnimation,
             linearTransition: linearTransition,
             child: CupertinoBackGestureDetector<T>(
-              gestureWidth:
-                  route.gestureWidth?.call(context) ?? _kBackGestureWidth,
+              gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
               enabledCallback: () => _isPopGestureEnabled<T>(route),
               onStartPopGesture: () => _startPopGesture<T>(route),
               child: child,
@@ -567,53 +533,49 @@ Cannot read the previousTitle for a route that has not yet been installed''',
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
                   : child);
 
         case Transition.fade:
-          return FadeUpwardsPageTransitionsBuilder().buildTransitions(
+          return const FadeUpwardsPageTransitionsBuilder().buildTransitions(
               route,
               context,
               animation,
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
                   : child);
 
         case Transition.topLevel:
-          return ZoomPageTransitionsBuilder().buildTransitions(
+          return const ZoomPageTransitionsBuilder().buildTransitions(
               route,
               context,
               animation,
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
                   : child);
 
         case Transition.native:
-          return PageTransitionsTheme().buildTransitions(
+          return const PageTransitionsTheme().buildTransitions(
               route,
               context,
               iosAnimation,
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
@@ -628,8 +590,7 @@ Cannot read the previousTitle for a route that has not yet been installed''',
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
@@ -637,19 +598,17 @@ Cannot read the previousTitle for a route that has not yet been installed''',
 
         default:
           if (Get.customTransition != null) {
-            return Get.customTransition!.buildTransition(context, route.curve,
-                route.alignment, animation, secondaryAnimation, child);
+            return Get.customTransition!.buildTransition(context, route.curve, route.alignment, animation, secondaryAnimation, child);
           }
 
-          return PageTransitionsTheme().buildTransitions(
+          return const PageTransitionsTheme().buildTransitions(
               route,
               context,
               iosAnimation,
               secondaryAnimation,
               route.popGesture ?? Get.defaultPopGesture
                   ? CupertinoBackGestureDetector<T>(
-                      gestureWidth: route.gestureWidth?.call(context) ??
-                          _kBackGestureWidth,
+                      gestureWidth: route.gestureWidth?.call(context) ?? _kBackGestureWidth,
                       enabledCallback: () => _isPopGestureEnabled<T>(route),
                       onStartPopGesture: () => _startPopGesture<T>(route),
                       child: child)
@@ -674,17 +633,44 @@ Cannot read the previousTitle for a route that has not yet been installed''',
     return route.navigator!.userGestureInProgress;
   }
 
+  // static bool _isPopGestureEnabled<T>(PageRoute<T> route) {
+  //   // If there's nothing to go back to, then obviously we don't support
+  //   // the back gesture.
+  //   if (route.isFirst) return false;
+  //   // If the route wouldn't actually pop if we popped it, then the gesture
+  //   // would be really confusing (or would skip internal routes),
+  //   //so disallow it.
+  //   if (route.willHandlePopInternally) return false;
+  //   // If attempts to dismiss this route might be vetoed such as in a page
+  //   // with forms, then do not allow the user to dismiss the route with a swipe.
+  //   if (route.hasScopedWillPopCallback) return false;
+  //   // Fullscreen dialogs aren't dismissible by back swipe.
+  //   if (route.fullscreenDialog) return false;
+  //   // If we're in an animation already, we cannot be manually swiped.
+  //   if (route.animation!.status != AnimationStatus.completed) return false;
+  //   // If we're being popped into, we also cannot be swiped until the pop above
+  //   // it completes. This translates to our secondary animation being
+  //   // dismissed.
+  //   if (route.secondaryAnimation!.status != AnimationStatus.dismissed) {
+  //     return false;
+  //   }
+  //   // If we're in a gesture already, we cannot start another.
+  //   if (isPopGestureInProgress(route)) return false;
+
+  //   // Looks like a back gesture would be welcome!
+  //   return true;
+  // }
+
   static bool _isPopGestureEnabled<T>(PageRoute<T> route) {
     // If there's nothing to go back to, then obviously we don't support
     // the back gesture.
     if (route.isFirst) return false;
     // If the route wouldn't actually pop if we popped it, then the gesture
     // would be really confusing (or would skip internal routes),
-    //so disallow it.
+    // so disallow it.
     if (route.willHandlePopInternally) return false;
-    // If attempts to dismiss this route might be vetoed such as in a page
-    // with forms, then do not allow the user to dismiss the route with a swipe.
-    if (route.hasScopedWillPopCallback) return false;
+    // support [PopScope]
+    if (route.popDisposition == RoutePopDisposition.doNotPop) return false;
     // Fullscreen dialogs aren't dismissible by back swipe.
     if (route.fullscreenDialog) return false;
     // If we're in an animation already, we cannot be manually swiped.
@@ -696,14 +682,15 @@ Cannot read the previousTitle for a route that has not yet been installed''',
       return false;
     }
     // If we're in a gesture already, we cannot start another.
-    if (isPopGestureInProgress(route)) return false;
+    if (GetPageRouteTransitionMixin.isPopGestureInProgress(route)) {
+      return false;
+    }
 
     // Looks like a back gesture would be welcome!
     return true;
   }
 
-  static CupertinoBackGestureController<T> _startPopGesture<T>(
-      PageRoute<T> route) {
+  static CupertinoBackGestureController<T> _startPopGesture<T>(PageRoute<T> route) {
     assert(_isPopGestureEnabled(route));
 
     return CupertinoBackGestureController<T>(

@@ -1,3 +1,4 @@
+// ignore_for_file: overridden_fields
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -67,8 +68,7 @@ class GetPage<T> extends Page<T> {
     this.showCupertinoParallax = true,
     this.preventDuplicates = true,
   })  : path = _nameToRegex(name),
-        assert(name.startsWith('/'),
-            'It is necessary to start route name [$name] with a slash: /$name'),
+        assert(name.startsWith('/'), 'It is necessary to start route name [$name] with a slash: /$name'),
         super(
           key: ValueKey(name),
           name: name,
@@ -103,8 +103,7 @@ class GetPage<T> extends Page<T> {
     bool? showCupertinoParallax,
   }) {
     return GetPage(
-      participatesInRootNavigator:
-          participatesInRootNavigator ?? this.participatesInRootNavigator,
+      participatesInRootNavigator: participatesInRootNavigator ?? this.participatesInRootNavigator,
       preventDuplicates: preventDuplicates ?? this.preventDuplicates,
       name: name ?? this.name,
       page: page ?? this.page,
@@ -126,30 +125,29 @@ class GetPage<T> extends Page<T> {
       middlewares: middlewares ?? this.middlewares,
       gestureWidth: gestureWidth ?? this.gestureWidth,
       arguments: arguments ?? this.arguments,
-      showCupertinoParallax:
-          showCupertinoParallax ?? this.showCupertinoParallax,
+      showCupertinoParallax: showCupertinoParallax ?? this.showCupertinoParallax,
     );
   }
 
   @override
   Route<T> createRoute(BuildContext context) {
     // return GetPageRoute<T>(settings: this, page: page);
-    final _page = PageRedirect(
+    final page = PageRedirect(
       route: this,
       settings: this,
       unknownRoute: unknownRoute,
     ).getPageToRoute<T>(this, unknownRoute);
 
-    return _page;
+    return page;
   }
 
   static PathDecoded _nameToRegex(String path) {
     var keys = <String?>[];
 
-    String _replace(Match pattern) {
+    String replace(Match pattern) {
       var buffer = StringBuffer('(?:');
 
-      if (pattern[1] != null) buffer.write('\.');
+      if (pattern[1] != null) buffer.write('.');
       buffer.write('([\\w%+-._~!\$&\'()*,;=:@]+))');
       if (pattern[3] != null) buffer.write('?');
 
@@ -157,9 +155,7 @@ class GetPage<T> extends Page<T> {
       return "$buffer";
     }
 
-    var stringPath = '$path/?'
-        .replaceAllMapped(RegExp(r'(\.)?:(\w+)(\?)?'), _replace)
-        .replaceAll('//', '/');
+    var stringPath = '$path/?'.replaceAllMapped(RegExp(r'(\.)?:(\w+)(\?)?'), replace).replaceAll('//', '/');
 
     return PathDecoded(RegExp('^$stringPath\$'), keys);
   }
@@ -178,7 +174,6 @@ class PathDecoded {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is PathDecoded &&
-        other.regex == regex; // && listEquals(other.keys, keys);
+    return other is PathDecoded && other.regex == regex; // && listEquals(other.keys, keys);
   }
 }

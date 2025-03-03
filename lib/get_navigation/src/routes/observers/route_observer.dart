@@ -112,8 +112,7 @@ class GetObserver extends NavigatorObserver {
       value.route = route;
       value.isBack = false;
       value.removed = '';
-      value.isBottomSheet =
-          newRoute.isBottomSheet ? true : value.isBottomSheet ?? false;
+      value.isBottomSheet = newRoute.isBottomSheet ? true : value.isBottomSheet ?? false;
       value.isDialog = newRoute.isDialog ? true : value.isDialog ?? false;
     });
 
@@ -136,8 +135,7 @@ class GetObserver extends NavigatorObserver {
       value.removed = routeName ?? '';
       value.previous = routeName ?? '';
       // value.isSnackbar = currentRoute.isSnackbar ? false : value.isSnackbar;
-      value.isBottomSheet =
-          currentRoute.isBottomSheet ? false : value.isBottomSheet;
+      value.isBottomSheet = currentRoute.isBottomSheet ? false : value.isBottomSheet;
       value.isDialog = currentRoute.isDialog ? false : value.isDialog;
     });
 
@@ -173,8 +171,7 @@ class GetObserver extends NavigatorObserver {
       value.removed = '';
       value.previous = '$oldName';
       // value.isSnackbar = currentRoute.isSnackbar ? false : value.isSnackbar;
-      value.isBottomSheet =
-          currentRoute.isBottomSheet ? false : value.isBottomSheet;
+      value.isBottomSheet = currentRoute.isBottomSheet ? false : value.isBottomSheet;
       value.isDialog = currentRoute.isDialog ? false : value.isDialog;
     });
     if (oldRoute is GetPageRoute) {
@@ -208,7 +205,7 @@ class Routing {
     this.isDialog,
   });
 
-  void update(void fn(Routing value)) {
+  void update(void Function(Routing value) fn) {
     fn(this);
   }
 }

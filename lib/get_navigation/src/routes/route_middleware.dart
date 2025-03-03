@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+
 import '../../../get.dart';
 
 abstract class _RouteMiddleware {
@@ -119,8 +120,7 @@ class GetMiddleware implements _RouteMiddleware {
   void onPageDispose() {}
 
   @override
-  Future<GetNavConfig?> redirectDelegate(GetNavConfig route) =>
-      SynchronousFuture(route);
+  Future<GetNavConfig?> redirectDelegate(GetNavConfig route) => SynchronousFuture(route);
 }
 
 class MiddlewareRunner {
@@ -129,8 +129,8 @@ class MiddlewareRunner {
   final List<GetMiddleware>? _middlewares;
 
   List<GetMiddleware> _getMiddlewares() {
-    final _m = _middlewares ?? <GetMiddleware>[];
-    return _m
+    final m = _middlewares ?? <GetMiddleware>[];
+    return m
       ..sort(
         (a, b) => (a.priority ?? 0).compareTo(b.priority ?? 0),
       );
@@ -176,8 +176,7 @@ class MiddlewareRunner {
     return page;
   }
 
-  void runOnPageDispose() =>
-      _getMiddlewares().forEach((element) => element.onPageDispose());
+  void runOnPageDispose() => _getMiddlewares().forEach((element) => element.onPageDispose());
 }
 
 class PageRedirect {
@@ -196,58 +195,56 @@ class PageRedirect {
   // redirect all pages that needes redirecting
   GetPageRoute<T> page<T>() {
     while (needRecheck()) {}
-    final _r = (isUnknown ? unknownRoute : route)!;
+    final r = (isUnknown ? unknownRoute : route)!;
     return GetPageRoute<T>(
-      page: _r.page,
-      parameter: _r.parameters,
+      page: r.page,
+      parameter: r.parameters,
       settings: isUnknown
           ? RouteSettings(
-              name: _r.name,
+              name: r.name,
               arguments: settings!.arguments,
             )
           : settings,
-      curve: _r.curve,
-      opaque: _r.opaque,
-      showCupertinoParallax: _r.showCupertinoParallax,
-      gestureWidth: _r.gestureWidth,
-      customTransition: _r.customTransition,
-      binding: _r.binding,
-      bindings: _r.bindings,
-      transitionDuration:
-          _r.transitionDuration ?? Get.defaultTransitionDuration,
-      transition: _r.transition,
-      popGesture: _r.popGesture,
-      fullscreenDialog: _r.fullscreenDialog,
-      middlewares: _r.middlewares,
+      curve: r.curve,
+      opaque: r.opaque,
+      showCupertinoParallax: r.showCupertinoParallax,
+      gestureWidth: r.gestureWidth,
+      customTransition: r.customTransition,
+      binding: r.binding,
+      bindings: r.bindings,
+      transitionDuration: r.transitionDuration ?? Get.defaultTransitionDuration,
+      transition: r.transition,
+      popGesture: r.popGesture,
+      fullscreenDialog: r.fullscreenDialog,
+      middlewares: r.middlewares,
     );
   }
 
   // redirect all pages that needes redirecting
   GetPageRoute<T> getPageToRoute<T>(GetPage rou, GetPage? unk) {
     while (needRecheck()) {}
-    final _r = (isUnknown ? unk : rou)!;
+    final r = (isUnknown ? unk : rou)!;
 
     return GetPageRoute<T>(
-      page: _r.page,
-      parameter: _r.parameters,
-      alignment: _r.alignment,
-      title: _r.title,
-      maintainState: _r.maintainState,
-      routeName: _r.name,
-      settings: _r,
-      curve: _r.curve,
-      showCupertinoParallax: _r.showCupertinoParallax,
-      gestureWidth: _r.gestureWidth,
-      opaque: _r.opaque,
-      customTransition: _r.customTransition,
-      binding: _r.binding,
-      bindings: _r.bindings,
-      transitionDuration:
-          _r.transitionDuration ?? Get.defaultTransitionDuration,
-      transition: _r.transition,
-      popGesture: _r.popGesture,
-      fullscreenDialog: _r.fullscreenDialog,
-      middlewares: _r.middlewares,
+      page: r.page,
+      parameter: r.parameters,
+      alignment: r.alignment,
+      title: r.title,
+      maintainState: r.maintainState,
+      routeName: r.name,
+      settings: r,
+      curve: r.curve,
+      showCupertinoParallax: r.showCupertinoParallax,
+      gestureWidth: r.gestureWidth,
+      opaque: r.opaque,
+      customTransition: r.customTransition,
+      binding: r.binding,
+      bindings: r.bindings,
+      transitionDuration: r.transitionDuration ?? Get.defaultTransitionDuration,
+      transition: r.transition,
+      popGesture: r.popGesture,
+      fullscreenDialog: r.fullscreenDialog,
+      middlewares: r.middlewares,
     );
   }
 

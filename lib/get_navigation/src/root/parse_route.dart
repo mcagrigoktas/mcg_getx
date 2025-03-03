@@ -11,18 +11,18 @@ class RouteDecoder {
     this.arguments,
   );
   void replaceArguments(Object? arguments) {
-    final _route = route;
-    if (_route != null) {
-      final index = treeBranch.indexOf(_route);
-      treeBranch[index] = _route.copy(arguments: arguments);
+    final route = this.route;
+    if (route != null) {
+      final index = treeBranch.indexOf(route);
+      treeBranch[index] = route.copy(arguments: arguments);
     }
   }
 
   void replaceParameters(Object? arguments) {
-    final _route = route;
-    if (_route != null) {
-      final index = treeBranch.indexOf(_route);
-      treeBranch[index] = _route.copy(parameters: parameters);
+    final route = this.route;
+    if (route != null) {
+      final index = treeBranch.indexOf(route);
+      treeBranch[index] = route.copy(parameters: parameters);
     }
   }
 }
@@ -44,18 +44,15 @@ class ParseRouteTree {
     ];
     for (var item in split) {
       if (curPath.endsWith('/')) {
-        curPath += '$item';
+        curPath += item;
       } else {
         curPath += '/$item';
       }
       cumulativePaths.add(curPath);
     }
 
-    final treeBranch = cumulativePaths
-        .map((e) => MapEntry(e, _findRoute(e)))
-        .where((element) => element.value != null)
-        .map((e) => MapEntry(e.key, e.value!))
-        .toList();
+    final treeBranch =
+        cumulativePaths.map((e) => MapEntry(e, _findRoute(e))).where((element) => element.value != null).map((e) => MapEntry(e.key, e.value!)).toList();
 
     final params = Map<String, String>.from(uri.queryParameters);
     if (treeBranch.isNotEmpty) {
@@ -116,10 +113,7 @@ class ParseRouteTree {
     final parentPath = route.name;
     for (var page in route.children) {
       // Add Parent middlewares to children
-      final parentMiddlewares = [
-        if (page.middlewares != null) ...page.middlewares!,
-        if (route.middlewares != null) ...route.middlewares!
-      ];
+      final parentMiddlewares = [if (page.middlewares != null) ...page.middlewares!, if (route.middlewares != null) ...route.middlewares!];
       result.add(
         _addChild(
           page,
@@ -144,9 +138,7 @@ class ParseRouteTree {
   }
 
   /// Change the Path for a [GetPage]
-  GetPage _addChild(
-          GetPage origin, String parentPath, List<GetMiddleware> middlewares) =>
-      origin.copy(
+  GetPage _addChild(GetPage origin, String parentPath, List<GetMiddleware> middlewares) => origin.copy(
         middlewares: middlewares,
         name: (parentPath + origin.name).replaceAll(r'//', '/'),
       );

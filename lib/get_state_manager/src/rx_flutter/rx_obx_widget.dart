@@ -1,6 +1,8 @@
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+
 import '../../../get_rx/src/rx_types/rx_types.dart';
 
 typedef WidgetCallback = Widget Function();
@@ -16,17 +18,17 @@ abstract class ObxWidget extends StatefulWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(ObjectFlagProperty<Function>.has('builder', build));
+    properties.add(ObjectFlagProperty<Function>.has('builder', build));
   }
 
   @override
-  _ObxState createState() => _ObxState();
+  ObxState createState() => ObxState();
 
   @protected
   Widget build();
 }
 
-class _ObxState extends State<ObxWidget> {
+class ObxState extends State<ObxWidget> {
   final _observer = RxNotifier();
   late StreamSubscription subs;
 
@@ -63,7 +65,7 @@ class _ObxState extends State<ObxWidget> {
 class Obx extends ObxWidget {
   final WidgetCallback builder;
 
-  const Obx(this.builder);
+  const Obx(this.builder, {Key? key}) : super(key: key);
 
   @override
   Widget build() => builder();

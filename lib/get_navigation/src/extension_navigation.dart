@@ -1,7 +1,6 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import '../../get_core/get_core.dart';
 import '../../get_instance/src/bindings_interface.dart';

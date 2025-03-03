@@ -1,6 +1,7 @@
-import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../../get_core/get_core.dart';
 import '../../get_instance/src/bindings_interface.dart';
@@ -790,14 +791,14 @@ you can only use widgets and widget functions here''';
   }
 
   /// The window to which this binding is bound.
-  ui.SingletonFlutterWindow get window => ui.window;
+  FlutterView get window => View.of(context!);
 
-  Locale? get deviceLocale => ui.window.locale;
+  Locale? get deviceLocale => PlatformDispatcher.instance.locale;
 
   ///The number of device pixels for each logical pixel.
-  double get pixelRatio => ui.window.devicePixelRatio;
+  double get pixelRatio => window.devicePixelRatio;
 
-  Size get size => ui.window.physicalSize / pixelRatio;
+  Size get size => window.physicalSize / pixelRatio;
 
   ///The horizontal extent of this size.
   double get width => size.width;
@@ -807,14 +808,14 @@ you can only use widgets and widget functions here''';
 
   ///The distance from the top edge to the first unpadded pixel,
   ///in physical pixels.
-  double get statusBarHeight => ui.window.padding.top;
+  double get statusBarHeight => window.padding.top;
 
   ///The distance from the bottom edge to the first unpadded pixel,
   ///in physical pixels.
-  double get bottomBarHeight => ui.window.padding.bottom;
+  double get bottomBarHeight => window.padding.bottom;
 
   ///The system-reported text scale.
-  double get textScaleFactor => ui.window.textScaleFactor;
+  double get textScaleFactor => PlatformDispatcher.instance.textScaleFactor;
 
   /// give access to TextTheme.of(context)
   TextTheme get textTheme => theme.textTheme;
@@ -826,7 +827,7 @@ you can only use widgets and widget functions here''';
   bool get isDarkMode => (theme.brightness == Brightness.dark);
 
   /// Check if dark mode theme is enable on platform on android Q+
-  bool get isPlatformDarkMode => (ui.window.platformBrightness == Brightness.dark);
+  bool get isPlatformDarkMode => (PlatformDispatcher.instance.platformBrightness == Brightness.dark);
 
   /// give access to Theme.of(context).iconTheme.color
   Color? get iconColor => theme.iconTheme.color;

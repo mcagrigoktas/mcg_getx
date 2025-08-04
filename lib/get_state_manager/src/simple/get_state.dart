@@ -204,16 +204,16 @@ class GetBuilderState<T extends GetxController> extends State<GetBuilder<T>> wit
   }
 }
 
-class PageBuilder<T extends GetxController> extends StatefulWidget {
+class StateBuilder<T extends GetxController> extends StatefulWidget {
   final GetControllerBuilder<T> builder;
   final bool autoRemove;
-  final void Function(PageBuilderState<T> state)? onDispose;
+  final void Function(StateBuilderState<T> state)? onDispose;
 
   /// controlleri Get.put ile yada direk ruturn ederek kullanabilirsin.
   final T Function() init;
   final String? tag;
 
-  const PageBuilder({
+  const StateBuilder({
     super.key,
     required this.init,
     required this.builder,
@@ -222,10 +222,10 @@ class PageBuilder<T extends GetxController> extends StatefulWidget {
     this.tag,
   });
   @override
-  PageBuilderState<T> createState() => PageBuilderState<T>();
+  StateBuilderState<T> createState() => StateBuilderState<T>();
 }
 
-class PageBuilderState<T extends GetxController> extends State<PageBuilder<T>> with GetStateUpdaterMixin {
+class StateBuilderState<T extends GetxController> extends State<StateBuilder<T>> with GetStateUpdaterMixin {
   T? controller;
   VoidCallback? _remove;
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../get_instance/src/get_instance.dart';
+
 import '../../../instance_manager.dart';
 import '../../get_state_manager.dart';
 import 'list_notifier.dart';
@@ -23,8 +23,7 @@ mixin GetStateUpdaterMixin<T extends StatefulWidget> on State<T> {
   }
 }
 
-typedef GetControllerBuilder<T extends DisposableInterface> = Widget Function(
-    T controller);
+typedef GetControllerBuilder<T extends DisposableInterface> = Widget Function(T controller);
 
 // class _InheritedGetxController<T extends GetxController>
 //     extends InheritedWidget {
@@ -59,11 +58,8 @@ class GetBuilder<T extends GetxController> extends StatefulWidget {
   final bool autoRemove;
   final bool assignId;
   final Object Function(T value)? filter;
-  final void Function(GetBuilderState<T> state)? initState,
-      dispose,
-      didChangeDependencies;
-  final void Function(GetBuilder oldWidget, GetBuilderState<T> state)?
-      didUpdateWidget;
+  final void Function(GetBuilderState<T> state)? initState, dispose, didChangeDependencies;
+  final void Function(GetBuilder oldWidget, GetBuilderState<T> state)? didUpdateWidget;
   final T? init;
 
   const GetBuilder({
@@ -105,8 +101,7 @@ class GetBuilder<T extends GetxController> extends StatefulWidget {
   GetBuilderState<T> createState() => GetBuilderState<T>();
 }
 
-class GetBuilderState<T extends GetxController> extends State<GetBuilder<T>>
-    with GetStateUpdaterMixin {
+class GetBuilderState<T extends GetxController> extends State<GetBuilder<T>> with GetStateUpdaterMixin {
   T? controller;
   bool? _isCreator = false;
   VoidCallback? _remove;
@@ -205,22 +200,69 @@ class GetBuilderState<T extends GetxController> extends State<GetBuilder<T>>
 
   @override
   Widget build(BuildContext context) {
-    // return _InheritedGetxController<T>(
-    //   model: controller,
-    //   child: widget.builder(controller),
-    // );
     return widget.builder(controller!);
   }
 }
 
-// extension FindExt on BuildContext {
-//   T find<T extends GetxController>() {
-//     return GetBuilder.of<T>(this, rebuild: false);
-//   }
-// }
+class PageBuilder<T extends GetxController> extends StatefulWidget {
+  final GetControllerBuilder<T> builder;
+  final bool autoRemove;
+  final void Function(PageBuilderState<T> state)? onDispose;
 
-// extension ObserverEtx on BuildContext {
-//   T obs<T extends GetxController>() {
-//     return GetBuilder.of<T>(this, rebuild: true);
-//   }
-// }
+  /// controlleri Get.put ile yada direk ruturn ederek kullanabilirsin.
+  final T Function() init;
+  final String? tag;
+
+  const PageBuilder({
+    super.key,
+    required this.init,
+    required this.builder,
+    this.autoRemove = true,
+    this.onDispose,
+    this.tag,
+  });
+  @override
+  PageBuilderState<T> createState() => PageBuilderState<T>();
+}
+
+class PageBuilderState<T extends GetxController> extends State<PageBuilder<T>> with GetStateUpdaterMixin {
+  T? controller;
+  VoidCallback? _remove;
+
+  @override
+  void initState() {
+    super.initState();
+    final _controller = widget.init();
+    if (!GetInstance().isRegistered<T>(tag: widget.tag)) {
+      controller = Get.put<T>(_controller, tag: widget.tag);
+    } else {
+      controller = GetInstance().find<T>(tag: widget.tag);
+    }
+
+    _subscribeToController();
+  }
+
+  void _subscribeToController() {
+    _remove?.call();
+    _remove = controller?.addListener(getUpdate);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget.onDispose?.call(this);
+
+    if (widget.autoRemove && GetInstance().isRegistered<T>(tag: widget.tag)) {
+      GetInstance().delete<T>(tag: widget.tag);
+    }
+
+    _remove?.call();
+    controller = null;
+    _remove = null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.builder(controller!);
+  }
+}

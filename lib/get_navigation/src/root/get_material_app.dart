@@ -27,7 +27,6 @@ class GetMaterialApp extends StatelessWidget {
   final CustomTransition? customTransition;
   final Color? color;
   final Map<String, Map<String, String>>? translationsKeys;
-  final Translations? translations;
   final TextDirection? textDirection;
   final Locale? locale;
   final Locale? fallbackLocale;
@@ -102,7 +101,6 @@ class GetMaterialApp extends StatelessWidget {
     this.scrollBehavior,
     this.customTransition,
     this.translationsKeys,
-    this.translations,
     this.onInit,
     this.onReady,
     this.onDispose,
@@ -160,7 +158,6 @@ class GetMaterialApp extends StatelessWidget {
     this.actions,
     this.customTransition,
     this.translationsKeys,
-    this.translations,
     this.textDirection,
     this.fallbackLocale,
     this.routingCallback,
@@ -211,12 +208,6 @@ class GetMaterialApp extends StatelessWidget {
           if (locale != null) Get.locale = locale;
 
           if (fallbackLocale != null) Get.fallbackLocale = fallbackLocale;
-
-          if (translations != null) {
-            Get.addTranslations(translations!.keys);
-          } else if (translationsKeys != null) {
-            Get.addTranslations(translationsKeys!);
-          }
 
           Get.customTransition = customTransition;
 

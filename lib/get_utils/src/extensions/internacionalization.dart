@@ -10,15 +10,15 @@ class _IntlHost {
   Map<String, Map<String, String>> translations = {};
 }
 
-extension FirstWhereExt<T> on List<T> {
-  /// The first element satisfying [test], or `null` if there are none.
-  T? firstWhereOrNull(bool Function(T element) test) {
-    for (var element in this) {
-      if (test(element)) return element;
-    }
-    return null;
-  }
-}
+// extension FirstWhereExt<T> on List<T> {
+//   /// The first element satisfying [test], or `null` if there are none.
+//   T? firstWhereOrNull(bool Function(T element) test) {
+//     for (var element in this) {
+//       if (test(element)) return element;
+//     }
+//     return null;
+//   }
+// }
 
 extension LocalesIntl on GetInterface {
   static final _intlHost = _IntlHost();
@@ -30,26 +30,6 @@ extension LocalesIntl on GetInterface {
   set locale(Locale? newLocale) => _intlHost.locale = newLocale;
 
   set fallbackLocale(Locale? newLocale) => _intlHost.fallbackLocale = newLocale;
-
-  Map<String, Map<String, String>> get translations => _intlHost.translations;
-
-  void addTranslations(Map<String, Map<String, String>> tr) {
-    translations.addAll(tr);
-  }
-
-  void clearTranslations() {
-    translations.clear();
-  }
-
-  void appendTranslations(Map<String, Map<String, String>> tr) {
-    tr.forEach((key, map) {
-      if (translations.containsKey(key)) {
-        translations[key]!.addAll(map);
-      } else {
-        translations[key] = map;
-      }
-    });
-  }
 }
 //? getx in tr extensionu kendininkini gelistirmek istersen ornek olarak kullanabilirsin
 // extension Trans on String {

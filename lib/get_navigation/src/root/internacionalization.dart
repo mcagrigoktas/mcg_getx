@@ -5,7 +5,3 @@ const List<String> rtlLanguages = <String>[
   'ps', // Pashto
   'ur',
 ];
-
-abstract class Translations {
-  Map<String, Map<String, String>> get keys;
-}

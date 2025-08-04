@@ -24,7 +24,6 @@ class GetCupertinoApp extends StatelessWidget {
   final CustomTransition? customTransition;
   final Color? color;
   final Map<String, Map<String, String>>? translationsKeys;
-  final Translations? translations;
   final TextDirection? textDirection;
   final Locale? locale;
   final Locale? fallbackLocale;
@@ -75,7 +74,6 @@ class GetCupertinoApp extends StatelessWidget {
     List<NavigatorObserver> this.navigatorObservers = const <NavigatorObserver>[],
     this.builder,
     this.translationsKeys,
-    this.translations,
     this.textDirection,
     this.title = '',
     this.onGenerateTitle,
@@ -146,7 +144,6 @@ class GetCupertinoApp extends StatelessWidget {
     this.actions,
     this.customTransition,
     this.translationsKeys,
-    this.translations,
     this.textDirection,
     this.fallbackLocale,
     this.routingCallback,
@@ -196,12 +193,6 @@ class GetCupertinoApp extends StatelessWidget {
           if (locale != null) Get.locale = locale;
 
           if (fallbackLocale != null) Get.fallbackLocale = fallbackLocale;
-
-          if (translations != null) {
-            Get.addTranslations(translations!.keys);
-          } else if (translationsKeys != null) {
-            Get.addTranslations(translationsKeys!);
-          }
 
           Get.customTransition = customTransition;
 

@@ -49,7 +49,7 @@ typedef GetControllerBuilder<T extends DisposableInterface> = Widget Function(T 
 //     return instance;
 //   }
 // }
-@Deprecated('Use PageBuilder instead.')
+@Deprecated('Use StateBuilder instead.')
 class GetBuilder<T extends GetxController> extends StatefulWidget {
   final GetControllerBuilder<T> builder;
   final bool global;

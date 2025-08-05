@@ -6,8 +6,6 @@ class _IntlHost {
   Locale? locale;
 
   Locale? fallbackLocale;
-
-  Map<String, Map<String, String>> translations = {};
 }
 
 // extension FirstWhereExt<T> on List<T> {

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 
 typedef ValueBuilderUpdateCallback<T> = void Function(T snapshot);
@@ -20,26 +18,27 @@ typedef ValueBuilderBuilder<T> = Widget Function(T snapshot, ValueBuilderUpdateC
 ///    onUpdate: (value) => print("Value updated: $value"),
 ///  ),
 ///  ```
+
 class ValueBuilder<T> extends StatefulWidget {
-  final T? initialValue;
+  final T initialValue;
   final ValueBuilderBuilder<T> builder;
   final void Function()? onDispose;
   final void Function(T)? onUpdate;
 
   const ValueBuilder({
-    Key? key,
-    this.initialValue,
+    super.key,
+    required this.initialValue,
     this.onDispose,
     this.onUpdate,
     required this.builder,
-  }) : super(key: key);
+  });
 
   @override
   ValueBuilderState<T> createState() => ValueBuilderState<T>();
 }
 
-class ValueBuilderState<T> extends State<ValueBuilder<T?>> {
-  T? value;
+class ValueBuilderState<T> extends State<ValueBuilder<T>> {
+  late T value;
 
   @override
   void initState() {
@@ -50,10 +49,8 @@ class ValueBuilderState<T> extends State<ValueBuilder<T?>> {
   @override
   Widget build(BuildContext context) => widget.builder(value, updater);
 
-  void updater(T? newValue) {
-    if (widget.onUpdate != null) {
-      widget.onUpdate!(newValue);
-    }
+  void updater(T newValue) {
+    widget.onUpdate?.call(newValue);
     setState(() {
       value = newValue;
     });
@@ -63,43 +60,5 @@ class ValueBuilderState<T> extends State<ValueBuilder<T?>> {
   void dispose() {
     super.dispose();
     widget.onDispose?.call();
-    if (value is ChangeNotifier) {
-      (value as ChangeNotifier?)?.dispose();
-    } else if (value is StreamController) {
-      (value as StreamController?)?.close();
-    }
-    value = null;
   }
 }
-
-// It's a experimental feature
-// class SimpleBuilder extends StatefulWidget {
-//   final Widget Function(BuildContext) builder;
-
-//   const SimpleBuilder({Key? key, required this.builder}) : super(key: key);
-
-//   @override
-//   SimpleBuilderState createState() => SimpleBuilderState();
-// }
-
-// class SimpleBuilderState extends State<SimpleBuilder> with GetStateUpdaterMixin {
-//   final disposers = <Disposer>[];
-
-//   @override
-//   void dispose() {
-//     super.dispose();
-//     for (final disposer in disposers) {
-//       disposer();
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return TaskManager.instance.exchange(
-//       disposers,
-//       getUpdate,
-//       widget.builder,
-//       context,
-//     );
-//   }
-// }

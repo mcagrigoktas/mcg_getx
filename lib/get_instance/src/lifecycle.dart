@@ -99,6 +99,3 @@ abstract class GetLifeCycle with GetLifeCycleBase {
     $configureLifeCycle();
   }
 }
-
-/// Allow track difference between GetxServices and GetxControllers
-mixin GetxServiceMixin {}

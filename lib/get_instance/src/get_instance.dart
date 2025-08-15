@@ -370,10 +370,6 @@ class GetInstance {
     }
     final i = builder.dependency;
 
-    if (i is GetxServiceMixin && !force) {
-      return false;
-    }
-
     if (i is GetLifeCycleBase) {
       i.onDelete();
       Get.log('"$newKey" onDelete() called');
@@ -442,10 +438,6 @@ class GetInstance {
     }
 
     final i = builder.dependency;
-
-    if (i is GetxServiceMixin && !force) {
-      return;
-    }
 
     if (i is GetLifeCycleBase) {
       i.onDelete();

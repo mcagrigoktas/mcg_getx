@@ -2,14 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../get.dart';
 
-/// Unlike GetxController, which serves to control events on each of its pages,
-/// GetxService is not automatically disposed (nor can be removed with
-/// Get.delete()).
-/// It is ideal for situations where, once started, that service will
-/// remain in memory, such as Auth control for example. Only way to remove
-/// it is Get.reset().
-abstract class GetxService extends DisposableInterface with GetxServiceMixin {}
-
 abstract class DisposableInterface extends GetLifeCycle {
   /// Called immediately after the widget is allocated in memory.
   /// You might use this to initialize something for the controller.

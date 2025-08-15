@@ -206,21 +206,31 @@ class GetBuilderState<T extends GetxController> extends State<GetBuilder<T>> wit
 
 class StateBuilder<T extends GetxController> extends StatefulWidget {
   final GetControllerBuilder<T> builder;
-  final bool autoRemove;
   final void Function(StateBuilderState<T> state)? onDispose;
 
   /// controlleri Get.put ile yada direk ruturn ederek kullanabilirsin.
-  final T Function() init;
+  final T Function()? init;
   final String? tag;
 
-  const StateBuilder({
+  final bool useExisting;
+
+  /// Controller bu sinin ile uretilip bu sinif kalkinca silinir
+  const StateBuilder.create({
     super.key,
     required this.init,
     required this.builder,
-    this.autoRemove = true,
     this.onDispose,
     this.tag,
-  });
+  }) : useExisting = false;
+
+  /// Controller disardan gelir. Bu sinif uretmez yada silmez sadece abone olur.
+  const StateBuilder.existing({
+    super.key,
+    required this.builder,
+    this.onDispose,
+    this.tag,
+  })  : useExisting = true,
+        init = null;
   @override
   StateBuilderState<T> createState() => StateBuilderState<T>();
 }
@@ -228,15 +238,22 @@ class StateBuilder<T extends GetxController> extends StatefulWidget {
 class StateBuilderState<T extends GetxController> extends State<StateBuilder<T>> with GetStateUpdaterMixin {
   T? controller;
   VoidCallback? _remove;
+  bool _isCreator = false;
 
   @override
   void initState() {
     super.initState();
-    final _controller = widget.init();
-    if (!GetInstance().isRegistered<T>(tag: widget.tag)) {
-      controller = Get.put<T>(_controller, tag: widget.tag);
-    } else {
+
+    if (widget.useExisting) {
       controller = GetInstance().find<T>(tag: widget.tag);
+    } else {
+      _isCreator = true;
+      final _controller = widget.init!();
+      if (!GetInstance().isRegistered<T>(tag: widget.tag)) {
+        controller = Get.put<T>(_controller, tag: widget.tag);
+      } else {
+        controller = GetInstance().find<T>(tag: widget.tag);
+      }
     }
 
     _subscribeToController();
@@ -252,7 +269,7 @@ class StateBuilderState<T extends GetxController> extends State<StateBuilder<T>>
     super.dispose();
     widget.onDispose?.call(this);
 
-    if (widget.autoRemove && GetInstance().isRegistered<T>(tag: widget.tag)) {
+    if (_isCreator && GetInstance().isRegistered<T>(tag: widget.tag)) {
       GetInstance().delete<T>(tag: widget.tag);
     }
 
